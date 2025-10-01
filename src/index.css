@@ -189,4 +189,14 @@ All colors MUST be HSL.
   .glow-effect {
     box-shadow: var(--shadow-glow);
   }
+
+  /* Hide scrollbar */
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 }

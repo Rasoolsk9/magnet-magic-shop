@@ -5,12 +5,14 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 interface ProductCardProps {
   name: string;
   description: string;
-  price: number;
+  minPrice: number;
+  singlePrice: number;
+  minOrder: number;
   image?: string;
   onCustomize: () => void;
 }
 
-export function ProductCard({ name, description, price, image, onCustomize }: ProductCardProps) {
+export function ProductCard({ name, description, minPrice, singlePrice, minOrder, image, onCustomize }: ProductCardProps) {
   return (
     <Card className="group overflow-hidden transition-all hover:shadow-xl hover:-translate-y-1 glass-card">
       <CardHeader>
@@ -36,9 +38,12 @@ export function ProductCard({ name, description, price, image, onCustomize }: Pr
       </CardHeader>
       
       <CardContent>
-        <div className="flex items-baseline gap-2">
-          <span className="text-3xl font-bold gradient-text">₹{price}</span>
-          <span className="text-sm text-muted-foreground">per magnet</span>
+        <div className="space-y-2">
+          <div className="flex items-baseline gap-2">
+            <span className="text-3xl font-bold gradient-text">₹{minPrice}</span>
+            <span className="text-sm text-muted-foreground">for {minOrder}</span>
+          </div>
+          <p className="text-xs text-muted-foreground">₹{singlePrice} each</p>
         </div>
       </CardContent>
       

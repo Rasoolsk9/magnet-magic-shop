@@ -6,11 +6,18 @@ import { useLocation } from 'react-router-dom';
 const Hero = lazy(() => 
   import('@/components/Hero').then(module => ({ default: module.Hero }))
 );
+const MagnetSliderSection = lazy(() => 
+  import('@/components/MagnetSliderSection').then(module => ({ default: module.MagnetSliderSection }))
+);
 const ProductGallery = lazy(() => 
   import('@/components/ProductGallery').then(module => ({ default: module.ProductGallery }))
 );
-const EventBooking = lazy(() => 
-  import('@/components/EventBooking').then(module => ({ default: module.EventBooking })));
+const LiveStallPackages = lazy(() => 
+  import('@/components/LiveStallPackages').then(module => ({ default: module.LiveStallPackages }))
+);
+const ConsultationBooking = lazy(() => 
+  import('@/components/ConsultationBooking').then(module => ({ default: module.ConsultationBooking }))
+);
 
 // Loading fallback component
 const LoadingFallback = () => (
@@ -56,6 +63,15 @@ const Index = () => {
           </ErrorBoundary>
         </section>
 
+        {/* Magnet Slider Section */}
+        <section className="scroll-mt-24 mb-24">
+          <ErrorBoundary>
+            <Suspense fallback={<LoadingFallback />}>
+              <MagnetSliderSection />
+            </Suspense>
+          </ErrorBoundary>
+        </section>
+
         {/* Products Section */}
         <section id="products" className="scroll-mt-24 mb-24">
           <ErrorBoundary>
@@ -65,14 +81,21 @@ const Index = () => {
           </ErrorBoundary>
         </section>
 
-        {/* Events Section */}
-        <section id="events" className="scroll-mt-24 mb-24">
+        {/* Live Stall Packages Section */}
+        <section id="stall-packages" className="scroll-mt-24 mb-24">
           <ErrorBoundary>
             <Suspense fallback={<LoadingFallback />}>
-              <EventBooking />
+              <LiveStallPackages />
             </Suspense>
           </ErrorBoundary>
         </section>
+
+        {/* Consultation Booking - Floating Button */}
+        <ErrorBoundary>
+          <Suspense fallback={null}>
+            <ConsultationBooking />
+          </Suspense>
+        </ErrorBoundary>
 
         {/* About Section */}
         <section id="about" className="scroll-mt-24 mb-24">

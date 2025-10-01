@@ -11,35 +11,40 @@ import { ShoppingCart } from 'lucide-react';
 const products = [
   {
     id: 1,
-    name: 'Round Magnet',
-    description: 'Classic circular design perfect for any photo',
-    price: 299,
-    shape: 'round' as const,
-  },
-  {
-    id: 2,
-    name: 'Rectangle Magnet',
-    description: 'Modern rectangular style for landscape photos',
-    price: 349,
+    name: 'Thick Rectangle Magnets',
+    description: 'Premium thick magnets for lasting memories',
+    minOrder: 3,
+    minPrice: 299,
+    singlePrice: 70,
     shape: 'rectangle' as const,
   },
   {
-    id: 3,
-    name: 'Heart Magnet',
-    description: 'Romantic heart shape for special memories',
-    price: 399,
-    shape: 'heart' as const,
+    id: 2,
+    name: 'Thin Rectangle Magnets',
+    description: 'Sleek thin design, perfect for any occasion',
+    minOrder: 3,
+    minPrice: 199,
+    singlePrice: 50,
+    shape: 'rectangle' as const,
   },
 ];
 
 export function ProductGallery() {
   const [selectedProduct, setSelectedProduct] = useState<typeof products[0] | null>(null);
   const [customText, setCustomText] = useState('');
+  const [quantity, setQuantity] = useState(3);
   const [isCustomizing, setIsCustomizing] = useState(false);
 
   const handleCustomize = (product: typeof products[0]) => {
     setSelectedProduct(product);
+    setQuantity(product.minOrder);
     setIsCustomizing(true);
+  };
+
+  const calculatePrice = () => {
+    if (!selectedProduct) return 0;
+    if (quantity < selectedProduct.minOrder) return selectedProduct.minPrice;
+    return quantity * selectedProduct.singlePrice;
   };
 
   return (
@@ -55,11 +60,15 @@ export function ProductGallery() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {products.map((product) => (
               <ProductCard
                 key={product.id}
-                {...product}
+                name={product.name}
+                description={product.description}
+                minPrice={product.minPrice}
+                singlePrice={product.singlePrice}
+                minOrder={product.minOrder}
                 onCustomize={() => handleCustomize(product)}
               />
             ))}
@@ -140,21 +149,40 @@ export function ProductGallery() {
 
               {/* Pricing */}
               <div className="glass-card p-4 space-y-3">
-                <div className="flex justify-between items-center">
-                  <span className="text-muted-foreground">Base Price</span>
-                  <span className="font-semibold">₹{selectedProduct?.price}</span>
+                <div className="text-sm text-muted-foreground mb-2">
+                  Min order: {selectedProduct?.minOrder} magnets = ₹{selectedProduct?.minPrice}
+                  <br />
+                  Single magnet: ₹{selectedProduct?.singlePrice} each
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-muted-foreground">Quantity</span>
                   <div className="flex gap-2 items-center">
-                    <Button variant="outline" size="sm">-</Button>
-                    <span className="w-8 text-center font-semibold">1</span>
-                    <Button variant="outline" size="sm">+</Button>
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      onClick={() => setQuantity(Math.max(selectedProduct?.minOrder || 3, quantity - 1))}
+                    >
+                      -
+                    </Button>
+                    <Input
+                      type="number"
+                      value={quantity}
+                      onChange={(e) => setQuantity(Math.max(selectedProduct?.minOrder || 3, parseInt(e.target.value) || selectedProduct?.minOrder || 3))}
+                      className="w-16 text-center"
+                      min={selectedProduct?.minOrder}
+                    />
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      onClick={() => setQuantity(quantity + 1)}
+                    >
+                      +
+                    </Button>
                   </div>
                 </div>
                 <div className="border-t pt-3 flex justify-between items-center">
                   <span className="font-bold text-lg">Total</span>
-                  <span className="text-2xl font-bold gradient-text">₹{selectedProduct?.price}</span>
+                  <span className="text-2xl font-bold gradient-text">₹{calculatePrice()}</span>
                 </div>
               </div>
 
