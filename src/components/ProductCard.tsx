@@ -16,7 +16,15 @@ export function ProductCard({ name, description, price, image, onCustomize }: Pr
       <CardHeader>
         <div className="aspect-square rounded-lg bg-gradient-to-br from-primary/20 to-accent/20 mb-4 overflow-hidden">
           {image ? (
-            <img src={image} alt={name} className="w-full h-full object-cover" />
+            <img 
+              src={image} 
+              alt={name} 
+              className="w-full h-full object-cover transition-opacity duration-300" 
+              loading="lazy"
+              decoding="async"
+              onLoad={(e) => e.currentTarget.classList.remove('opacity-0')}
+              style={{ opacity: 0 }}
+            />
           ) : (
             <div className="w-full h-full flex items-center justify-center">
               <div className="w-24 h-24 rounded-full bg-gradient-to-br from-primary to-accent animate-float" />
