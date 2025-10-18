@@ -1,137 +1,95 @@
-import { useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
 
-const thickMagnets = [
-  'https://images.unsplash.com/photo-1511895426328-dc8714191300?w=400',
-  'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400',
-  'https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=400',
-  'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=400',
-  'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=400',
-];
-
-const thinMagnets = [
-  'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=400',
-  'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=400',
-  'https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=400',
-  'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400',
-  'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=400',
+const magnetImages = [
+  'https://images.unsplash.com/photo-1511895426328-dc8714191300?w=300&h=300&fit=crop',
+  'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=300&h=300&fit=crop',
+  'https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=300&h=300&fit=crop',
+  'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=300&h=300&fit=crop',
+  'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=300&h=300&fit=crop',
+  'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=300&h=300&fit=crop',
+  'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=300&h=300&fit=crop',
+  'https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=300&h=300&fit=crop',
 ];
 
 export function MagnetSliderSection() {
-  const topSliderRef = useRef<HTMLDivElement>(null);
-  const bottomSliderRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const topSlider = topSliderRef.current;
-    const bottomSlider = bottomSliderRef.current;
-    
-    if (topSlider) {
-      const scrollHeight = topSlider.scrollHeight / 2;
-      topSlider.scrollTop = scrollHeight;
-      
-      let scrollTop = scrollHeight;
-      const scrollInterval = setInterval(() => {
-        scrollTop -= 1;
-        if (scrollTop <= 0) scrollTop = scrollHeight;
-        topSlider.scrollTop = scrollTop;
-      }, 30);
-      
-      return () => clearInterval(scrollInterval);
-    }
-  }, []);
-
-  useEffect(() => {
-    const bottomSlider = bottomSliderRef.current;
-    
-    if (bottomSlider) {
-      let scrollTop = 0;
-      const scrollInterval = setInterval(() => {
-        scrollTop += 1;
-        if (scrollTop >= bottomSlider.scrollHeight / 2) scrollTop = 0;
-        bottomSlider.scrollTop = scrollTop;
-      }, 30);
-      
-      return () => clearInterval(scrollInterval);
-    }
-  }, []);
-
   return (
-    <section className="relative py-20 overflow-hidden">
+    <section className="relative py-20 overflow-hidden bg-gradient-to-b from-background to-muted/20">
       <div className="container mx-auto px-4">
-        <div className="grid lg:grid-cols-3 gap-8 items-center">
-          {/* Top Slider - Moving Up */}
-          <div className="relative h-[500px] overflow-hidden rounded-2xl">
-            <div 
-              ref={topSliderRef}
-              className="h-full overflow-y-scroll scrollbar-hide"
-              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-            >
-              <div className="space-y-4 pb-4">
-                {[...thickMagnets, ...thickMagnets].map((img, idx) => (
-                  <div key={idx} className="relative rounded-xl overflow-hidden glass-card">
-                    <img 
-                      src={img} 
-                      alt={`Thick magnet ${idx + 1}`}
-                      className="w-full h-48 object-cover"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent flex items-end p-4">
-                      <span className="text-white font-semibold">Thick Magnet</span>
-                    </div>
-                  </div>
-                ))}
+        <div className="text-center space-y-4 mb-12">
+          <h2 className="text-4xl md:text-5xl font-bold">
+            Custom <span className="gradient-text">Rectangle Magnets</span>
+          </h2>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            Watch your memories come to life — each magnet is crafted with care and printed with premium quality
+          </p>
+        </div>
+
+        {/* First Row - Slides Left to Right */}
+        <div className="relative mb-8 overflow-hidden">
+          <div className="flex gap-6 animate-scroll-left hover:pause-animation">
+            {[...magnetImages, ...magnetImages].map((img, idx) => (
+              <div 
+                key={`left-${idx}`}
+                className="flex-shrink-0 w-64 h-64 rounded-2xl overflow-hidden glass-card shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 group"
+              >
+                <img 
+                  src={img} 
+                  alt={`Custom magnet ${idx + 1}`}
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                  <span className="text-white font-semibold text-sm">Premium Quality</span>
+                </div>
               </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Pricing Section */}
+        <div className="max-w-4xl mx-auto mb-8">
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="glass-card p-8 space-y-3 hover:shadow-xl transition-shadow duration-300 rounded-2xl">
+              <h3 className="text-2xl font-bold gradient-text">Thick Magnets</h3>
+              <p className="text-4xl font-bold">₹299</p>
+              <p className="text-muted-foreground">Min 3 magnets • ₹70 each</p>
+              <p className="text-sm text-muted-foreground">Premium thickness for durability</p>
+            </div>
+            
+            <div className="glass-card p-8 space-y-3 hover:shadow-xl transition-shadow duration-300 rounded-2xl">
+              <h3 className="text-2xl font-bold gradient-text">Thin Magnets</h3>
+              <p className="text-4xl font-bold">₹199</p>
+              <p className="text-muted-foreground">Min 3 magnets • ₹50 each</p>
+              <p className="text-sm text-muted-foreground">Sleek & lightweight design</p>
             </div>
           </div>
-
-          {/* Middle - Pricing Info */}
-          <div className="text-center space-y-6 px-4">
-            <h2 className="text-4xl md:text-5xl font-bold">
-              Custom <span className="gradient-text">Rectangle Magnets</span>
-            </h2>
-            
-            <div className="space-y-4">
-              <div className="glass-card p-6 space-y-2">
-                <h3 className="text-xl font-bold gradient-text">Thick Magnets</h3>
-                <p className="text-2xl font-bold">₹299</p>
-                <p className="text-sm text-muted-foreground">Min 3 magnets • ₹70 each</p>
-              </div>
-              
-              <div className="glass-card p-6 space-y-2">
-                <h3 className="text-xl font-bold gradient-text">Thin Magnets</h3>
-                <p className="text-2xl font-bold">₹199</p>
-                <p className="text-sm text-muted-foreground">Min 3 magnets • ₹50 each</p>
-              </div>
-            </div>
-
+          
+          <div className="text-center mt-8">
             <Button variant="hero" size="xl" className="group">
               Order Now
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Button>
           </div>
+        </div>
 
-          {/* Bottom Slider - Moving Down */}
-          <div className="relative h-[500px] overflow-hidden rounded-2xl">
-            <div 
-              ref={bottomSliderRef}
-              className="h-full overflow-y-scroll scrollbar-hide"
-              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-            >
-              <div className="space-y-4 pb-4">
-                {[...thinMagnets, ...thinMagnets].map((img, idx) => (
-                  <div key={idx} className="relative rounded-xl overflow-hidden glass-card">
-                    <img 
-                      src={img} 
-                      alt={`Thin magnet ${idx + 1}`}
-                      className="w-full h-48 object-cover"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent flex items-end p-4">
-                      <span className="text-white font-semibold">Thin Magnet</span>
-                    </div>
-                  </div>
-                ))}
+        {/* Second Row - Slides Right to Left */}
+        <div className="relative overflow-hidden">
+          <div className="flex gap-6 animate-scroll-right hover:pause-animation">
+            {[...magnetImages, ...magnetImages].map((img, idx) => (
+              <div 
+                key={`right-${idx}`}
+                className="flex-shrink-0 w-64 h-64 rounded-2xl overflow-hidden glass-card shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 group"
+              >
+                <img 
+                  src={img} 
+                  alt={`Custom magnet ${idx + 1}`}
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                  <span className="text-white font-semibold text-sm">Your Memories</span>
+                </div>
               </div>
-            </div>
+            ))}
           </div>
         </div>
       </div>

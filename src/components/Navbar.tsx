@@ -10,9 +10,7 @@ import {
 } from "@/components/ui/sheet";
 
 const NAV_ITEMS = [
-  { id: '#products', label: 'Products' },
-  { id: '#events', label: 'Events' },
-  { id: '#about', label: 'About' },
+  { id: '#shop', label: 'Shop' },
 ] as const;
 
 export function Navbar() {
@@ -76,14 +74,30 @@ export function Navbar() {
 
           {/* Navigation Links - Desktop */}
           <div className="hidden md:flex items-center gap-8">
+            <Link to="/" className="text-sm font-medium transition-colors hover:text-primary">
+              Home
+            </Link>
             {NAV_ITEMS.map((item) =>
               renderNavLink(item, 'text-sm font-medium transition-colors hover:text-primary')
             )}
+            <button className="text-sm font-medium transition-colors hover:text-primary">
+              Help
+            </button>
           </div>
 
           {/* Actions */}
           <div className="flex items-center gap-4">
-            <Button variant="ghost" size="icon" className="relative" aria-label="Shopping cart">
+            <Button variant="outline" size="sm" className="relative hidden md:flex items-center gap-2" aria-label="My Cart">
+              <ShoppingCart className="w-4 h-4" />
+              <span>My Cart</span>
+              {cartCount > 0 && (
+                <span className="absolute -top-1 -right-1 w-5 h-5 bg-primary text-primary-foreground text-xs rounded-full flex items-center justify-center">
+                  {cartCount}
+                </span>
+              )}
+            </Button>
+            
+            <Button variant="ghost" size="icon" className="relative md:hidden" aria-label="Shopping cart">
               <ShoppingCart className="w-5 h-5" />
               {cartCount > 0 && (
                 <span className="absolute -top-1 -right-1 w-5 h-5 bg-primary text-primary-foreground text-xs rounded-full flex items-center justify-center">
@@ -93,7 +107,7 @@ export function Navbar() {
             </Button>
             
             <div className="hidden md:block">
-              <AuthDialog />
+              <AuthDialog triggerLabel="Account" />
             </div>
 
             {/* Mobile Menu */}
@@ -105,11 +119,20 @@ export function Navbar() {
               </SheetTrigger>
               <SheetContent side="right" className="w-[300px] pt-16">
                 <div className="flex flex-col gap-4">
+                  <Link to="/" onClick={() => setIsMenuOpen(false)} className="text-lg font-medium hover:text-primary transition-colors py-2 text-left">
+                    Home
+                  </Link>
                   {NAV_ITEMS.map((item) =>
                     renderNavLink(item, 'text-lg font-medium hover:text-primary transition-colors py-2 text-left')
                   )}
+                  <button className="text-lg font-medium hover:text-primary transition-colors py-2 text-left">
+                    My Cart {cartCount > 0 && `(${cartCount})`}
+                  </button>
+                  <button className="text-lg font-medium hover:text-primary transition-colors py-2 text-left">
+                    Help
+                  </button>
                   <div className="mt-4">
-                    <AuthDialog />
+                    <AuthDialog triggerLabel="Account" />
                   </div>
                 </div>
               </SheetContent>

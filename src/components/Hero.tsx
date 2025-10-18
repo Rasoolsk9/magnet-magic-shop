@@ -18,26 +18,30 @@ export function Hero() {
           
           {/* Headline */}
           <h1 className="text-5xl md:text-7xl font-bold leading-tight">
-            Make Every Moment{' '}
-            <span className="gradient-text">Magnetic</span>
+            Turn your memories into{' '}
+            <span className="gradient-text">magnets that never fade</span>
           </h1>
           
           {/* Subheadline */}
           <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto">
-            Transform your favorite memories into beautiful custom fridge magnets. 
-            Design in 3D, preview instantly, and bring joy to your space.
+            Upload, preview in 3D, and order in minutes — gifts that stick forever.
           </p>
           
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
             <Button variant="hero" size="xl" className="group">
-              Start Designing
+              Let's make your first magnet 💖
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Button>
             <Button variant="outline" size="xl" className="btn-magnetic">
-              Browse Collection
+              View Gallery
             </Button>
           </div>
+          
+          {/* Trust line */}
+          <p className="text-sm text-muted-foreground pt-4">
+            ✨ Printed with love in India · 100% Happiness Guarantee · Safe Checkout
+          </p>
           
           {/* Stats */}
           <div className="grid grid-cols-3 gap-8 pt-12 max-w-2xl mx-auto">

@@ -73,7 +73,7 @@ const Index = () => {
         </section>
 
         {/* Products Section */}
-        <section id="products" className="scroll-mt-24 mb-24">
+        <section id="shop" className="scroll-mt-24 mb-24">
           <ErrorBoundary>
             <Suspense fallback={<LoadingFallback />}>
               <ProductGallery />

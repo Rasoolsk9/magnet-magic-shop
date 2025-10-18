@@ -12,7 +12,11 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/components/ui/use-toast";
 
-export function AuthDialog() {
+interface AuthDialogProps {
+  triggerLabel?: string;
+}
+
+export function AuthDialog({ triggerLabel = "Get Started" }: AuthDialogProps) {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const [otpSent, setOtpSent] = useState(false);
@@ -61,7 +65,7 @@ export function AuthDialog() {
     <Dialog>
       <DialogTrigger asChild>
         <Button size="lg" className="bg-primary text-white hover:bg-primary/90">
-          Get Started
+          {triggerLabel}
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
