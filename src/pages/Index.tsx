@@ -9,6 +9,9 @@ const Hero = lazy(() =>
 const MagnetSliderSection = lazy(() => 
   import('@/components/MagnetSliderSection').then(module => ({ default: module.MagnetSliderSection }))
 );
+const MagnetCustomizer = lazy(() => 
+  import('@/components/MagnetCustomizer').then(module => ({ default: module.MagnetCustomizer }))
+);
 const ProductGallery = lazy(() => 
   import('@/components/ProductGallery').then(module => ({ default: module.ProductGallery }))
 );
@@ -72,8 +75,17 @@ const Index = () => {
           </ErrorBoundary>
         </section>
 
-        {/* Products Section */}
+        {/* Magnet Customizer - 3D Upload & Preview */}
         <section id="shop" className="scroll-mt-24 mb-24">
+          <ErrorBoundary>
+            <Suspense fallback={<LoadingFallback />}>
+              <MagnetCustomizer />
+            </Suspense>
+          </ErrorBoundary>
+        </section>
+
+        {/* Products Section */}
+        <section className="scroll-mt-24 mb-24">
           <ErrorBoundary>
             <Suspense fallback={<LoadingFallback />}>
               <ProductGallery />
