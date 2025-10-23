@@ -36,31 +36,65 @@ function MagnetMesh({ shape = 'round', imageUrl, autoRotate, zoom = 1, rotation 
   const getMeshGeometry = () => {
     switch (shape) {
       case 'rectangle':
-        return <boxGeometry args={[2 * zoom, 1.5 * zoom, 0.2]} />;
+        // Use plane for flat texture display
+        return <planeGeometry args={[2 * zoom, 1.5 * zoom]} />;
       case 'heart':
-        return <sphereGeometry args={[1 * zoom, 32, 32]} />;
+        // Use circle for heart shape (will use plane)
+        return <circleGeometry args={[1 * zoom, 32]} />;
       case 'round':
       default:
-        return <cylinderGeometry args={[1 * zoom, 1 * zoom, 0.2, 32]} />;
+        // Use circle for round magnets
+        return <circleGeometry args={[1 * zoom, 32]} />;
     }
   };
 
   return (
-    <mesh 
-      ref={meshRef}
-      castShadow 
-      receiveShadow 
-      rotation={[Math.PI / 2 + rotation.x, rotation.y, rotation.z]}
-    >
-      {getMeshGeometry()}
-      <meshStandardMaterial
-        map={texture}
-        color={texture ? "#ffffff" : "#e91e63"}
-        metalness={0.3}
-        roughness={0.4}
-        side={THREE.DoubleSide}
-      />
-    </mesh>
+    <group>
+      {/* Front face with image */}
+      <mesh 
+        ref={meshRef}
+        castShadow 
+        receiveShadow 
+        rotation={[rotation.x, rotation.y, rotation.z]}
+      >
+        {getMeshGeometry()}
+        <meshStandardMaterial
+          map={texture}
+          color={texture ? "#ffffff" : "#e91e63"}
+          metalness={0.3}
+          roughness={0.4}
+        />
+      </mesh>
+      
+      {/* Back face */}
+      <mesh 
+        castShadow 
+        receiveShadow 
+        rotation={[rotation.x, rotation.y + Math.PI, rotation.z]}
+        position={[0, 0, -0.05]}
+      >
+        {getMeshGeometry()}
+        <meshStandardMaterial
+          color="#ffffff"
+          metalness={0.3}
+          roughness={0.4}
+        />
+      </mesh>
+      
+      {/* Edge thickness */}
+      <mesh position={[0, 0, -0.025]}>
+        {shape === 'rectangle' ? (
+          <boxGeometry args={[2 * zoom, 1.5 * zoom, 0.05]} />
+        ) : (
+          <cylinderGeometry args={[1 * zoom, 1 * zoom, 0.05, 32]} />
+        )}
+        <meshStandardMaterial
+          color="#e0e0e0"
+          metalness={0.5}
+          roughness={0.3}
+        />
+      </mesh>
+    </group>
   );
 }
 
